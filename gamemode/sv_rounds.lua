@@ -5,7 +5,7 @@ IN_PROGRESS = 2;
 LAST_SURVIVOR = 3;
 ENDING = 4;
 
-ROUND_STATE = WAITING_FOR_PLAYERS;
+ROUND_STATE = WAITING_FOR_PLAYERS; // Default round state whenever the gamemode is initialized (Don't change it tbh)
 
 module("Round", package.seeall);
 
@@ -33,6 +33,7 @@ function Start()
         timer.Simple(VIRUS.StandbyTime, function()
             PrintDebug("Beginning new round", 1);
             Begin();
+            //At this point, we should have infected and survivors, so we're just going to wait until the round is over or whatever.
         end)
     else
         print("WARNING : A round start has been triggered while the current state was in standby or progress. Check your code!")
@@ -55,4 +56,25 @@ function Begin()
 
     local firstInfected = table.Random(neutrals);
     PrintDebug(firstInfected:Name() .. " is the first infected. Setting to infected class.", 1);
+end
+
+//Finish the current round and switch to the results. (Finishing a round just end the fight between survivors and infected)
+function Finish()
+
+end
+
+//End the current round and try to start a new one.
+function End()
+
+end
+
+//Returns true or false. Checks if we can start a new round.
+function CanStart()
+    if(Round.GetState() == WAITING_FOR_PLAYERS || Round.GetState() == ENDING) then
+        if(table.Count(player.GetAll()) >= VIRUS.RequiredPlayers) then
+            return true;
+        end
+    else
+        return false;
+    end
 end

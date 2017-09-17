@@ -43,12 +43,10 @@ function InitialSpawnCheck(ply)
     //========
     //Checking if we can start the round
     //========
-    if(Round.GetState() == WAITING_FOR_PLAYERS) then
-        if(table.Count(player.GetAll()) >= VIRUS.RequiredPlayers) then
-            //We have enough players, let's start a new round
-            PrintDebug("Reached required players, trying to start the game.", 1);
-            Round.Start();
-        end
+    if(Round.CanStart()) then
+        //We have enough players, let's start a new round
+        PrintDebug("Reached required players, trying to start the game.", 1);
+        Round.Start();
     end
 end
 
